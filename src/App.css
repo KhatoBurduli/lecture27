@@ -1,0 +1,21 @@
+.navbar {
+  background-color: rgb(180, 174, 174);
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.navbar a {
+  margin-right: 15px;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  flex-direction: row;
+}
+
+.active {
+  color: red;
+}
