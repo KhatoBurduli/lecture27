@@ -12,8 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { IRoute } from '../router/routes';
+import { IRoute } from '../../router/routes';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { dividerClasses } from '@mui/material';
+import AuthButtons from './AuthButtons';
 
 const settings = ['Profile', 'Logout'];
 
@@ -21,6 +23,7 @@ interface MuiNavbarProps {
     routes: IRoute[]
 }
 const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
+  const auth = {token:false}
     const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -94,7 +97,7 @@ const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          {auth.token ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -122,7 +125,7 @@ const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> : <AuthButtons/>}
         </Toolbar>
       </Container>
     </AppBar>

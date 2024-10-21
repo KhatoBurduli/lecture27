@@ -6,8 +6,9 @@ import Contact from "../pages/Contact";
 import { routes } from "./routes";
 import Login from "../pages/Login";
 import Product from "../pages/Product";
-import ProtectedRoutes from "../components/ProtectedRoutes";
-import MuiNavbar from "../components/MUINavbar";
+import ProtectedRoutes from "./ProtectedRoutes";
+import MuiNavbar from "../components/navbar/MUINavbar";
+import Register from "../pages/Register";
 
 const Router: React.FC = () => {
   return (
@@ -22,7 +23,12 @@ const Router: React.FC = () => {
         <Route path="/products" element={<Product/>}/>
       </Route>
 
-      <Route path="login" element={<Login />} />
+      <Route>
+        <Route path="login" element={<Login/>} />
+        <Route path="register" element={<Register/>} />
+
+      </Route>
+
     </Routes>
   );
 };
