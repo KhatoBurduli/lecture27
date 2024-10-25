@@ -9,6 +9,7 @@ import Product from "../pages/Product";
 import ProtectedRoutes from "./ProtectedRoutes";
 import MuiNavbar from "../components/navbar/MUINavbar";
 import Register from "../pages/Register";
+import Users from "../pages/Users";
 
 const Router: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Router: React.FC = () => {
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/users" element={<Users />} />
       </Route>
 
       <Route element={<ProtectedRoutes/>} >

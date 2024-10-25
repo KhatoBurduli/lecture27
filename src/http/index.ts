@@ -7,4 +7,32 @@ const $axios = axios.create({
     baseURL: API_URL
 })
 
+$axios.interceptors.request.use((config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    return config
+})
+
+$axios.interceptors.response.use(
+    (config) => config,
+    async (error) => {
+        const originalRespone = error.config
+        if(error.response.status === 401 &&
+            error.config &&
+            !error.config._isRetry
+        ){
+            originalRespone._isRetry = true;
+            try {
+                const response = await axios.get(`${API_URL}/refresh`, {
+                    withCredentials: true
+                })
+                localStorage.setItem('token', response.data.accessToken)
+                return $axios.request(originalRespone)
+            } catch (error) {
+                console.log("unauthorized")
+            }
+        }
+
+    }
+)
+
 export default $axios

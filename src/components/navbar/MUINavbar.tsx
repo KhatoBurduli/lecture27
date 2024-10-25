@@ -14,19 +14,21 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { IRoute } from '../../router/routes';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { dividerClasses } from '@mui/material';
+import { CircularProgress, dividerClasses } from '@mui/material';
 import AuthButtons from './AuthButtons';
-
-const settings = ['Profile', 'Logout'];
+import { useAuthContext } from '../../context/authContext';
+import { Logout } from '@mui/icons-material';
 
 interface MuiNavbarProps {
     routes: IRoute[]
 }
 const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
-  const auth = {token:false}
+  const {user: {email}, loading, logout} = useAuthContext()
     const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const settings = [{title: 'Profile', action: () => {}}, {title: 'Logout', action: logout}];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -97,7 +99,7 @@ const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
               </Button>
             ))}
           </Box>
-          {auth.token ? <Box sx={{ flexGrow: 0 }}>
+          {loading ? <CircularProgress disableShrink style={{color: 'white'}}/> : email ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -119,9 +121,11 @@ const MuiNavbar:React.FC<MuiNavbarProps> = ({routes}) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+              {settings.map(({action,title}) => (
+                <MenuItem key={title} onClick={handleCloseUserMenu}>
+                  <Button onClick={action}>
+                  <Typography sx={{ textAlign: 'center' }}>{title}</Typography>
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>
